@@ -6,6 +6,16 @@ let serverIp = "0.0.0.0";
 
 let serverPort = 8124;
 
+let fetchOnlinePlayers = () => {
+    return [
+        {nick: "Pepa", score: 12, level:1 },
+        {nick: "Lojza", score: 12, level:1 },
+        {nick: "Franta", score: 12, level:1 },
+        {nick: "Oldřich", score: 12, level:1 },
+        {nick: "Uxes", score: 12, level:1 }
+    ]
+}
+
 
 let server = http.createServer(function(request, response) {
     let path = url.parse(request.url, true).pathname;
@@ -37,7 +47,7 @@ wsServer = new WebSocketServer({
     autoAcceptConnections: false
 });
 
-
+let spamCounter = 0;
 
 
 wsServer.on('request', function(request) {
@@ -52,6 +62,13 @@ wsServer.on('request', function(request) {
                 let response;
                 try{
                     response = JSON.parse(message.utf8Data);
+
+                    if(response.onlinePlayers){
+                        connection.sendUTF(JSON.stringify({players: fetchOnlinePlayers()}))
+                        spamCounter++;
+
+                    }
+
                 }
                 catch (e){
                     response = message.utf8Data;
@@ -59,7 +76,7 @@ wsServer.on('request', function(request) {
 
                 console.log(JSON.stringify(response, null, 4));
 
-                connection.sendUTF(JSON.stringify({message: "cosik"}))
+                console.log("spam counter", spamCounter)
 
             }
             catch(err){
