@@ -2,17 +2,39 @@ let http = require('http');
 let url = require('url');
 let WebSocketServer = require('websocket').server;
 
-let serverIp = "0.0.0.0";
+let serverIp = "10.0.0.139";
 
 let serverPort = 8124;
 
+function dynamicSort(property) {
+    let sortOrder = -1;
+    return function (a,b) {
+        let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
+
+let fetchScores = () => {
+    let scores =  [
+        {nick: "Pepa", score: 12},
+        {nick: "Lojza", score: 14},
+        {nick: "Franta", score: 1},
+        {nick: "Oldřich", score: 42},
+        {nick: "Uxes", score: 22},
+        {nick: "Fero", score: 0},
+        {nick: "Anežka", score: 116}
+    ]
+    return scores.sort(dynamicSort("score"))
+
+
+}
 let fetchOnlinePlayers = () => {
     return [
         {nick: "Pepa", score: 12, level:1 },
-        {nick: "Lojza", score: 12, level:1 },
-        {nick: "Franta", score: 12, level:1 },
-        {nick: "Oldřich", score: 12, level:1 },
-        {nick: "Uxes", score: 12, level:1 }
+        {nick: "Lojza", score: 14, level:2 },
+        {nick: "Franta", score: 1, level:1 },
+        {nick: "Oldřich", score: 42, level:4 },
+        {nick: "Uxes", score: 22, level:3 }
     ]
 }
 
@@ -68,10 +90,15 @@ wsServer.on('request', function(request) {
                         spamCounter++;
 
                     }
+                    if(response.score){
+                        connection.sendUTF(JSON.stringify({players: fetchScores()}))
+                        spamCounter++;
+                    }
 
                 }
                 catch (e){
                     response = message.utf8Data;
+                    console.log("spadlo")
                 }
 
                 console.log(JSON.stringify(response, null, 4));
