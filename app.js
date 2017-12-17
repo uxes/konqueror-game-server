@@ -6,11 +6,25 @@ let serverIp = "10.0.0.139";
 
 let serverPort = 8124;
 
+
+let onlinePlayers = []
+
 function dynamicSort(property) {
     let sortOrder = -1;
     return function (a,b) {
         let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
+    }
+}
+
+function addOnlinePlayer(resp) {
+    let found = false
+    for(let i = 0; i < onlinePlayers.length; i++){
+        if(onlinePlayers[i].nick === resp.nick)
+            found = true
+    }
+    if(!found){
+        onlinePlayers.push({nick: resp.nick, score: 0, level: 0})
     }
 }
 
@@ -29,6 +43,7 @@ let fetchScores = () => {
 
 }
 let fetchOnlinePlayers = () => {
+    return onlinePlayers
     return [
         {nick: "Pepa", score: 12, level:1 },
         {nick: "Lojza", score: 14, level:2 },
@@ -71,14 +86,20 @@ wsServer = new WebSocketServer({
 
 let spamCounter = 0;
 
+let users = []
+
+
+
 
 wsServer.on('request', function(request) {
-
-
     let connection = request.accept('connection', request.origin);
 
+
     connection.on('message', function(message) {
-        console.log(message);
+
+        users[message.nick] = request
+
+
         if (message.type === 'utf8') {
             try{
                 let response;
@@ -86,7 +107,13 @@ wsServer.on('request', function(request) {
                     response = JSON.parse(message.utf8Data);
 
                     if(response.onlinePlayers){
-                        connection.sendUTF(JSON.stringify({players: fetchOnlinePlayers()}))
+
+
+
+                        addOnlinePlayer(response)
+
+
+                        connection.broadcast(JSON.stringify({players: onlinePlayers}))
                         spamCounter++;
 
                     }
@@ -98,7 +125,7 @@ wsServer.on('request', function(request) {
                 }
                 catch (e){
                     response = message.utf8Data;
-                    console.log("spadlo")
+                    console.log("spadlo", e)
                 }
 
                 console.log(JSON.stringify(response, null, 4));
@@ -112,6 +139,8 @@ wsServer.on('request', function(request) {
         }
     });
     connection.on('close', function(reasonCode, description) {
+        console.log("nasrani", reasonCode)
+        console.log("nasrani", description)
     });
 });
 
