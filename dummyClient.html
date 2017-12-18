@@ -1,0 +1,54 @@
+<script>
+
+    let connection;
+
+    connection = new WebSocket("ws://10.0.0.139:8124", "connection");
+
+    connection.onopen = function(e){
+        //
+    };
+
+    connection.onmessage = function(e){
+
+//        var parse = JSON.parse(e.data);
+        console.log(e.data);
+        try{
+            let data = JSON.parse(e.data)
+
+            let ul = document.querySelector("div ul");
+            ul.innerHTML = ""
+            for(let i in data.players){
+                let li = document.createElement("li")
+                li.innerHTML = data.players[i].nick
+                ul.appendChild(li)
+
+
+            }
+        }
+        catch(e){}
+
+
+    };
+
+    connection.onclose = function(e){
+        console.log("closed..")
+    }
+
+    function connect() {
+        connection.send(JSON.stringify({
+            onlinePlayers: true,
+            nick: document.querySelector("input").value
+        }));
+    }
+
+
+
+</script>
+
+<div>
+    <input type="text" id="name"> <button onclick="connect()">Connect</button>
+    <ul>
+
+    </ul>
+
+</div>

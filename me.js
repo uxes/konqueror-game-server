@@ -22,11 +22,14 @@ wss.on('connection', function(ws) {
         if(data.onlinePlayers){
             let onlinePlayers = []
             clients.forEach( (val, key) => {
-
-                onlinePlayers.push({nick: key, score: 0, level: 0})
+                if(key != data.nick){
+                    onlinePlayers.push({nick: key, score: 0, level: 0})
+                }
             } )
 
-            ws.send(JSON.stringify({players: onlinePlayers}))
+            //ws.send(JSON.stringify({players: onlinePlayers}))
+
+            sendAll();
 
         }
 
@@ -38,6 +41,9 @@ wss.on('connection', function(ws) {
         if(data.acceptOpponent){
             clients.get(data.opponent).send(JSON.stringify({gameAccepted: true, opponent: data.nick}))
         }
+        if(data.refuseOpponent){
+            clients.get(data.opponent).send(JSON.stringify({gameRefused: true, opponent: data.nick}))
+        }
 
         if(data.getQuestion){
             let question = getRandomQuestion();
@@ -48,8 +54,19 @@ wss.on('connection', function(ws) {
     });
 });
 
-function sendAll (message) {
-    clients.forEach( (val, key)=> {
-        val.send("Message: " + message);
+function sendAll () {
+
+
+    clients.forEach( (ws, nick)=> {
+
+        let response = []
+
+        clients.forEach( (val, key)=> {
+            if(key != nick){
+                response.push({nick: key, score: 0, level: 0})
+            }
+        })
+
+        ws.send(JSON.stringify({players: response}));
     } )
 }
