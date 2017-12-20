@@ -1,6 +1,7 @@
 <script>
 
     let connection;
+    let nick
 
     connection = new WebSocket("ws://10.0.0.139:8124", "connection");
 
@@ -15,15 +16,52 @@
         try{
             let data = JSON.parse(e.data)
 
-            let ul = document.querySelector("div ul");
-            ul.innerHTML = ""
-            for(let i in data.players){
-                let li = document.createElement("li")
-                li.innerHTML = data.players[i].nick
-                ul.appendChild(li)
+            if(data.players){
 
+
+                let ul = document.querySelector("div ul");
+                ul.innerHTML = ""
+                for(let i in data.players){
+                    let li = document.createElement("li")
+                    li.innerHTML = data.players[i].nick
+                    li.onclick = function() {
+                        connection.send(JSON.stringify({nick: nick, chooseUser: true, opponent: this.innerHTML, realm: 0}))
+                    }
+                    ul.appendChild(li)
+
+
+                }
 
             }
+            if(data.offerGame){
+
+                let k = confirm("player " + data.opponent + " wants to play with u")
+
+                if(k){
+                    connection.send(JSON.stringify({nick: nick, acceptOpponent: true, opponent: data.opponent}))
+                }
+                else{
+                    connection.send(JSON.stringify({nick: nick, refuseOpponent: true, opponent: data.opponent}))
+
+                }
+
+            }
+
+            if(data.gameAccepted){
+                connection.send(JSON.stringify({nick: nick, getQuestion: true, opponent: data.opponent}))
+            }
+
+            if(data.randomQuestion){
+
+                let k = prompt("Realm: " + data.realm + "\n" + data.question.question + ":\n\n0." + data.question.answers[0] + "\n1." + data.question.answers[1] + "\n2." + data.question.answers[2] + "\n3." + data.question.answers[3])
+                console.log("answred with " + k)
+
+            }
+
+            if(data.quitting){
+                alert("Opponent " + data.opponent + " has left the game")
+            }
+
         }
         catch(e){}
 
@@ -35,6 +73,7 @@
     }
 
     function connect() {
+        nick = document.querySelector("input").value
         connection.send(JSON.stringify({
             onlinePlayers: true,
             nick: document.querySelector("input").value

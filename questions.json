@@ -1,31 +1,120 @@
 [
   {
-    "question": "otazkas 0",
+    "question": "Z čeho se peče chleba",
     "answers": [
-      "jakasyk odpoved 0",
-      "jakasyk odpoved 1",
-      "jakasyk odpoved 2",
-      "jakasyk odpoved 3"
+      "Rohlíky",
+      "svačina",
+      "motörhead",
+      "johny b goode"
     ]
   },
   {
-    "question": "otazkas 1",
+    "question": "mám hlad?",
     "answers": [
-      "jakasyk odpoved 0",
-      "jakasyk odpoved 1",
-      "jakasyk odpoved 2",
-      "jakasyk odpoved 3"
+      "johny be good tonight",
+      "go go go",
+      "asi ne",
+      "jistě"
     ]
   },
   {
-    "question": "otazkas 2",
+    "question": "jaky si dam čaj?",
     "answers": [
-      "jakasyk odpoved 0",
-      "jakasyk odpoved 1",
-      "jakasyk odpoved 2",
-      "jakasyk odpoved 3"
+      "modry",
+      "zelený",
+      "kopřiva",
+      "go johny go, go.."
+    ]
+  },
+  {
+    "question": "Kdo je král zvířat?",
+    "answers": [
+      "Lev",
+      "Kapr",
+      "Kráva",
+      "Myslivec"
+    ]
+  },
+  {
+    "question": "Co dlouhého měla televizní Saxana?",
+    "answers": [
+      "Ruku",
+      "Vlasy",
+      "Nohu",
+      "Nos"
+    ]
+  },
+  {
+    "question": "Mezi foukací nástroje patří?",
+    "answers": [
+      "Saxofon",
+      "Housle",
+      "Klavír",
+      "Bicí"
+    ]
+  },
+  {
+    "question": "Jak se jmenuje nejvyšší hora Beskyd?",
+    "answers": [
+      "Lysá hora",
+      "Krakonoš",
+      "Karakom",
+      "Beskydka"
+    ]
+  },
+  {
+    "question": "Odkud vyjíždí vlaky v písni Jarka Nohavici?",
+    "answers": [
+      "Z Těšína",
+      "Z kolejí",
+      "Z Brna",
+      "Z tunelu"
+    ]
+  },
+  {
+    "question": "Kdo nepatří mezi členy kapely Beatles?",
+    "answers": [
+      "Elvis Presley",
+      "John Lennon",
+      "Ringo Star",
+      "Paul McCartney"
+    ]
+  },
+  {
+    "question": "Citát Být či nebýt? To oč tu běží je?.. pochází z kterého díla Williama Shakespeara?",
+    "answers": [
+      "Hamlet",
+      "Zkrocení zlé ženy",
+      "Vlasy",
+      "Povídky Malostranské"
+    ]
+  },
+  {
+    "question": "Kdo je maskot Linuxu?",
+    "answers": [
+      "Tučňák",
+      "Bílý králíček",
+      "Prase",
+      "Koblížek"
+    ]
+  },
+  {
+    "question": "Co nepatří mezi státní znaky?",
+    "answers": [
+      "Liška",
+      "Vlajka",
+      "Znak",
+      "Hymna"
+    ]
+  },
+  {
+    "question": "Který stát v Evropě nemá moře?",
+    "answers": [
+      "Slovensko",
+      "Anglie",
+      "Itálie",
+      "Polsko"
     ]
   }
-
 
 ]
